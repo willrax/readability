@@ -1,25 +1,18 @@
 # Readability
 
-[![Build Status](https://travis-ci.org/keepcosmos/readability.svg?branch=master)](https://travis-ci.org/keepcosmos/readability)
-[![Readability version](https://img.shields.io/hexpm/v/readability.svg)](https://hex.pm/packages/readability)
-[![Deps Status](https://beta.hexfaktor.org/badge/all/github/keepcosmos/readability.svg)](https://beta.hexfaktor.org/github/keepcosmos/readability)
-
-Readability is a tool for extracting and curating the primary readable content of a webpage.  
-Check out The [Documentation](https://hexdocs.pm/readability/Readability.html) for full and detailed guides
+**🚨 This is a fork of a (from what I can tell) currently unmaintained hex package**
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add readability to your list of dependencies in `mix.exs`:
+1. Add this fork to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:readability, "~> 0.9"}]
+  [{:readability, git: "https://github.com/willrax/readability.git"}]
 end
 ```
 
-  2. Ensure readability is started before your application:
+2. Ensure readability is started before your application:
 
 ```elixir
 def application do
@@ -34,6 +27,7 @@ Note: Readability requires Elixir 1.3 or higher.
 ### Examples
 
 #### Just pass a url
+
 ```elixir
 url = "https://medium.com/@kenmazaika/why-im-betting-on-elixir-7c8f847b58"
 summary = Readability.summarize(url)
@@ -88,16 +82,17 @@ html
 If the result is different from your expectations, you can add options to customize it.
 
 #### Example
+
 ```elixir
 url = "https://medium.com/@kenmazaika/why-im-betting-on-elixir-7c8f847b58"
 summary = Readability.summarize(url, [clean_conditionally: false])
 ```
 
-* min_text_length \\\\ 25
-* remove_unlikely_candidates \\\\ true
-* weight_classes \\\\ true
-* clean_conditionally \\\\ true
-* retry_length \\\\ 250
+- min_text_length \\\\ 25
+- remove_unlikely_candidates \\\\ true
+- weight_classes \\\\ true
+- clean_conditionally \\\\ true
+- retry_length \\\\ 250
 
 **You can find other algorithm and regex options in `readability.ex`**
 
@@ -109,16 +104,17 @@ To run the test suite:
 
 ## Todo
 
-* [x] Extract authors
-* [x] More configurable
-* [x] Summarize function
-* [ ] Convert relative paths into absolute paths of `img#src` and `a#href`
+- [x] Extract authors
+- [x] More configurable
+- [x] Summarize function
+- [ ] Convert relative paths into absolute paths of `img#src` and `a#href`
 
 ## Contributions are welcome!
 
 Check out [the main features milestone](https://github.com/keepcosmos/readability/milestones) and features of related projects below
 
 **Contributing**
+
 1. **Fork** the repo on GitHub
 2. **Clone** the project to your own machine
 3. **Commit** changes to your own branch
@@ -127,12 +123,11 @@ Check out [the main features milestone](https://github.com/keepcosmos/readabilit
 
 NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
-
 ## Related and Inpired Projects
 
-* [readability.js](https://github.com/mozilla/readability) is a standalone version of the readability library used for Firefox Reader View.
-* [newspaper](https://github.com/codelucas/newspaper) is an advanced news extraction, article extraction, and content curation library for Python.
-* [ruby-readability](https://github.com/cantino/ruby-readability) is a tool for extracting the primary readable content of a webpage.
+- [readability.js](https://github.com/mozilla/readability) is a standalone version of the readability library used for Firefox Reader View.
+- [newspaper](https://github.com/codelucas/newspaper) is an advanced news extraction, article extraction, and content curation library for Python.
+- [ruby-readability](https://github.com/cantino/ruby-readability) is a tool for extracting the primary readable content of a webpage.
 
 ## LICENSE
 
