@@ -162,7 +162,7 @@ defmodule Readability do
     |> description
   end
 
-  def description(html_tree), do: DescriptionFinder.description(html_tree)
+  def description(html_tree), do: Readability.DescriptionFinder.description(html_tree)
 
   @doc """
   Extract authors
