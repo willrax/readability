@@ -96,6 +96,7 @@ defmodule Readability do
         %Summary{
           title: title(html_tree),
           authors: authors(html_tree),
+          description: description(html_tree),
           article_html: readable_html(article_tree),
           article_text: readable_text(article_tree)
         }
@@ -154,6 +155,14 @@ defmodule Readability do
   end
 
   def title(html_tree), do: TitleFinder.title(html_tree)
+
+  def description(raw_html) when is_binary(raw_html) do
+    raw_html
+    |> Helper.normalize()
+    |> description
+  end
+
+  def description(html_tree), do: DescriptionFinder.description(html_tree)
 
   @doc """
   Extract authors
