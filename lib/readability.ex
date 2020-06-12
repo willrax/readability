@@ -78,7 +78,7 @@ defmodule Readability do
   summarize the primary readable content of a webpage.
   """
   @spec summarize(url, options) :: Summary.t()
-  def summarize(url, opts \\ []) do
+  def summarize(url, opts \\ []) when is_bitstring(url) do
     opts = Keyword.merge(opts, page_url: url)
     httpoison_options = Application.get_env(:readability, :httpoison_options, [])
     %{status_code: _, body: raw, headers: headers} = HTTPoison.get!(url, [], httpoison_options)
@@ -104,6 +104,25 @@ defmodule Readability do
       _ ->
         %Summary{title: nil, authors: nil, article_html: nil, article_text: raw}
     end
+  end
+
+  @spec summarize_html(binary, url, options) :: Summary.t()
+  def summarize_html(html_body, url, opts \\ []) do
+    html_tree =
+      html_body
+      |> Helper.normalize(url: url)
+
+    article_tree =
+      html_tree
+      |> ArticleBuilder.build(opts)
+
+    %Summary{
+      title: title(html_tree),
+      authors: authors(html_tree),
+      description: description(html_tree),
+      article_html: readable_html(article_tree),
+      article_text: readable_text(article_tree)
+    }
   end
 
   @doc """

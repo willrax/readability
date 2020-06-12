@@ -82,4 +82,24 @@ defmodule ReadabilityTest do
     assert pubmed_text =~
              ~r/with different mechanisms yielded potent antihypertensive efficacy with safety and decreased plasma BNP levels.$/
   end
+
+  test "parses raw_html" do
+    html = """
+        <html>
+          <head>
+            <title>Tag title - test</title>
+            <meta property='og:title' content='og title'>
+          </head>
+          <body>
+            <p>
+              <h1>h1 title</h1>
+              <h2>h2 title</h2>
+            </p>
+          </body>
+        </html>
+    """
+
+    summary = Readability.summarize_html(html, "https://willrax.com")
+    assert summary.title == "og title"
+  end
 end
