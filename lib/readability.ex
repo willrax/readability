@@ -77,11 +77,22 @@ defmodule Readability do
   @doc """
   summarize the primary readable content of a webpage.
   """
-  @spec summarize(url, options) :: Summary.t()
+  @spec summarize(url, options) :: {atom(), Summary.t() | HTTPoison.Error.t()}
   def summarize(url, opts \\ []) when is_bitstring(url) do
     opts = Keyword.merge(opts, page_url: url)
     httpoison_options = Application.get_env(:readability, :httpoison_options, [])
-    %{status_code: _, body: raw, headers: headers} = HTTPoison.get!(url, [], httpoison_options)
+
+    HTTPoison.get(url, [], httpoison_options)
+    |> parse_markup(opts)
+  end
+
+  defp parse_markup({:error, error}, _opts) do
+    {:error, error}
+  end
+
+  defp parse_markup({:ok, response}, opts) do
+    %{status_code: _, body: raw, headers: headers} = response
+    [page_url: url] = opts
 
     case is_response_markup(headers) do
       true ->
@@ -93,16 +104,17 @@ defmodule Readability do
           html_tree
           |> ArticleBuilder.build(opts)
 
-        %Summary{
-          title: title(html_tree),
-          authors: authors(html_tree),
-          description: description(html_tree),
-          article_html: readable_html(article_tree),
-          article_text: readable_text(article_tree)
-        }
+        {:ok,
+         %Summary{
+           title: title(html_tree),
+           authors: authors(html_tree),
+           description: description(html_tree),
+           article_html: readable_html(article_tree),
+           article_text: readable_text(article_tree)
+         }}
 
       _ ->
-        %Summary{title: nil, authors: nil, article_html: nil, article_text: raw}
+        {:ok, %Summary{title: nil, authors: nil, article_html: nil, article_text: raw}}
     end
   end
 

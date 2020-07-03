@@ -30,7 +30,7 @@ Note: Readability requires Elixir 1.3 or higher.
 
 ```elixir
 url = "https://medium.com/@kenmazaika/why-im-betting-on-elixir-7c8f847b58"
-summary = Readability.summarize(url)
+{:ok, summary} = Readability.summarize(url)
 
 summary.title
 #=> "Why I’m betting on Elixir"
@@ -85,7 +85,7 @@ If the result is different from your expectations, you can add options to custom
 
 ```elixir
 url = "https://medium.com/@kenmazaika/why-im-betting-on-elixir-7c8f847b58"
-summary = Readability.summarize(url, [clean_conditionally: false])
+{:ok, summary} = Readability.summarize(url, [clean_conditionally: false])
 ```
 
 - min_text_length \\\\ 25
@@ -123,7 +123,7 @@ Check out [the main features milestone](https://github.com/keepcosmos/readabilit
 
 NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
-## Related and Inpired Projects
+## Related and Inspired Projects
 
 - [readability.js](https://github.com/mozilla/readability) is a standalone version of the readability library used for Firefox Reader View.
 - [newspaper](https://github.com/codelucas/newspaper) is an advanced news extraction, article extraction, and content curation library for Python.
